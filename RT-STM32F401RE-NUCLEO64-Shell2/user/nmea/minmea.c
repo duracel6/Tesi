@@ -399,7 +399,7 @@ bool minmea_parse_rmc(struct minmea_sentence_rmc *frame, const char *sentence)
             &frame->date,
             &frame->variation, &variation_direction))
         return false;
-    if (strcmp(sentence +3, "RMC"))
+    if (strncmp(sentence +3, "RMC",3))
         return false;
 
     frame->valid = (validity == 'A');
@@ -429,7 +429,7 @@ bool minmea_parse_gga(struct minmea_sentence_gga *frame, const char *sentence)
             &frame->height, &frame->height_units,
             &frame->dgps_age))
         return false;
-    if (strcmp(sentence +3, "GGA"))
+    if (strncmp(sentence +3, "GGA",3))
         return false;
 
     frame->latitude.value *= latitude_direction;
@@ -463,7 +463,7 @@ bool minmea_parse_gsa(struct minmea_sentence_gsa *frame, const char *sentence)
             &frame->hdop,
             &frame->vdop))
         return false;
-    if (strcmp(sentence +3, "GSA"))
+    if (strncmp(sentence +3, "GSA",3))
         return false;
 
     return true;
@@ -575,7 +575,7 @@ bool minmea_parse_vtg(struct minmea_sentence_vtg *frame, const char *sentence)
             &c_kph,
             &c_faa_mode))
         return false;
-    if (strcmp(sentence +3, "VTG"))
+    if (strncmp(sentence +3, "VTG",3))
         return false;
     // check chars
     if (c_true != 'T' ||
@@ -602,7 +602,7 @@ bool minmea_parse_zda(struct minmea_sentence_zda *frame, const char *sentence)
           &frame->hour_offset,
           &frame->minute_offset))
       return false;
-  if (strcmp(sentence +3, "ZDA"))
+  if (strncmp(sentence +3, "ZDA", 3))
       return false;
 
   // check offsets
