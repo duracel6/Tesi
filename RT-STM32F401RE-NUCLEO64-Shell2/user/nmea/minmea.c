@@ -14,6 +14,13 @@
 #include <time.h>
 
 #define boolstr(s) ((s) ? "true" : "false")
+double conversion(double parametro){
+  int gradi;
+  float secondi;
+  gradi=(int)(parametro/100);
+  secondi=(int)(((parametro/100)-gradi)*100000);
+  return (gradi+(secondi/60)/1000);
+}
 
 static int hex2int(char c)
 {
