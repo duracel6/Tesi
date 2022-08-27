@@ -71,7 +71,7 @@ THD_FUNCTION(thdGps, arg) {
    // trp = (thread_reference_t) NULL;
    // uartStop(&UARTD1);
 
-    chprintf(chp2, "RECEIVED: \"%s\"\n\r\r", line);
+    chprintf(chp2, "RECEIVED: \"%s\"\n\r", line);
 
     switch (minmea_sentence_id(line, true)) {
       case MINMEA_SENTENCE_RMC: {
