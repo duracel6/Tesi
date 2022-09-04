@@ -9,7 +9,7 @@
 
 #define INDENT_SPACES "  "
 
-static char line[MINMEA_MAX_LENGTH]="$GPGLL,4046.35185,N,01447.42800,E,140250.000,V,N*47";
+static char line[MINMEA_MAX_LENGTH];
 static thread_reference_t trp;
 
 void rxchar(UARTDriver *uartp, uint16_t c) {
@@ -64,24 +64,22 @@ THD_FUNCTION(thdGps, arg) {
   while (TRUE) {
     int i;
 
-   // trp = (thread_reference_t) NULL;
-   // uartStart(&UARTD1, &uart1_cfg);
-    //chThdSuspendS(&trp);
+    trp = (thread_reference_t) NULL;
+    uartStart(&UARTD1, &uart1_cfg);
+    chThdSuspendS(&trp);
 
-   // trp = (thread_reference_t) NULL;
-   // uartStop(&UARTD1);
+   trp = (thread_reference_t) NULL;
+    uartStop(&UARTD1);
 
-    chprintf(chp2, "RECEIVED: \"%s\"\n\r", line);
-
+    chprintf(chp2, "RECEIVED:  \"%s\"\n\r\r", line);
     switch (minmea_sentence_id(line, true)) {
       case MINMEA_SENTENCE_RMC: {
         struct minmea_sentence_rmc frame;
         if (minmea_parse_rmc(&frame, line)) {
           chprintf(
-              chp2,
-              INDENT_SPACES "$xxRMC: raw coordinates and speed: (%d/%d,%d/%d) %d/%d\n\r",
-              conversion(frame.latitude.value), frame.latitude.scale, conversion(frame.longitude.value),
-              frame.longitude.scale, frame.speed.value, frame.speed.scale);
+              chp2,"$xxRMC: raw coordinates and speed: (%f,%f) %d/%d\n\r",
+              conversion(frame.latitude.value), conversion(frame.longitude.value),
+               frame.speed.value, frame.speed.scale);
           chprintf(
               chp2,
               INDENT_SPACES "$xxRMC fixed-point coordinates and speed scaled to three decimal places: (%d,%d) %d\n\r",
@@ -92,7 +90,7 @@ THD_FUNCTION(thdGps, arg) {
               chp2,
               INDENT_SPACES "$xxRMC floating point degree coordinates and speed: (%f,%f) %f\n\r",
               minmea_tocoord(&frame.latitude), minmea_tocoord(&frame.longitude),
-              minmea_tofloat(&frame.speed));
+              minmea_tofloat(&frame.speed)*1.852);
         }
         else {
           chprintf(chp2, INDENT_SPACES "$xxRMC sentence is not parsed\n\r");
@@ -103,8 +101,8 @@ THD_FUNCTION(thdGps, arg) {
       case MINMEA_SENTENCE_GGA: {
         struct minmea_sentence_gga frame;
         if (minmea_parse_gga(&frame, line)) {
-          chprintf(chp2, INDENT_SPACES "$xxGGA: fix quality: %d\n\r",
-                   frame.fix_quality);
+                   chprintf(chp2, INDENT_SPACES "$xxGGA: coordinates (%f,%f), altitude=%f, height=%f \n\r",
+                   conversion(frame.latitude.value),conversion(frame.longitude.value),frame.altitude,frame.height);
         }
         else {
           chprintf(chp2, INDENT_SPACES "$xxGGA sentence is not parsed\n\r");
@@ -112,7 +110,7 @@ THD_FUNCTION(thdGps, arg) {
       }
         break;
 
-      case MINMEA_SENTENCE_GST: {
+     case MINMEA_SENTENCE_GST: {
         struct minmea_sentence_gst frame;
         if (minmea_parse_gst(&frame, line)) {
           chprintf(
@@ -201,9 +199,9 @@ THD_FUNCTION(thdGps, arg) {
         if (minmea_parse_gll(&frame, line)) {
           chprintf(
               chp2,
-              INDENT_SPACES "$xxGll: raw latitude,longitude and altitude: (%d/%d,%d/%d)\n\r",
-              conversion(frame.latitude.value), frame.latitude.scale, conversion(frame.longitude.value),
-              frame.longitude.scale);
+              INDENT_SPACES "$xxGll: raw latitude,longitude and altitude: (%f,%f)\n\r",
+              conversion(frame.latitude.value), conversion(frame.longitude.value)
+              );
         }
 
         else {

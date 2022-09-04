@@ -29,7 +29,7 @@
 #define HALCONF_H
 
 #define _CHIBIOS_HAL_CONF_
-#define _CHIBIOS_HAL_CONF_VER_7_1_
+#define _CHIBIOS_HAL_CONF_VER_8_0_
 
 #include "mcuconf.h"
 
@@ -86,7 +86,7 @@
  * @brief   Enables the I2C subsystem.
  */
 #if !defined(HAL_USE_I2C) || defined(__DOXYGEN__)
-#define HAL_USE_I2C                         FALSE
+#define HAL_USE_I2C                         TRUE
 #endif
 
 /**

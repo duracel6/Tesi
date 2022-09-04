@@ -5,12 +5,12 @@
 
 # Compiler options here.
 ifeq ($(USE_OPT),)
-  USE_OPT = -O0 -ggdb -fomit-frame-pointer -falign-functions=16
+  USE_OPT =  -O0 -ggdb -fomit-frame-pointer -falign-functions=16
 endif
 
 # C specific options here (added to USE_OPT).
 ifeq ($(USE_COPT),)
-  USE_COPT = 
+  USE_COPT =  
 endif
 
 # C++ specific options here (added to USE_OPT).
@@ -89,7 +89,7 @@ PROJECT = ch
 MCU  = cortex-m4
 
 # Imported source files and paths.
-CHIBIOS  := ../../chibios216
+CHIBIOS  := ../../chibios2111
 CONFDIR  := ./cfg
 BUILDDIR := ./build
 DEPDIR   := ./.dep
