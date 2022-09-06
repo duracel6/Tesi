@@ -816,3 +816,4 @@
 #endif  /* CHCONF_H */
 
 /** @} */
+#define CHPRINTF_USE_FLOAT          TRUE

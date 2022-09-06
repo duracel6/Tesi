@@ -18,11 +18,8 @@
 
 #include "ch.h"
 #include "hal.h"
-
-#include "shell.h"
-#include "chprintf.h"
 #include "thdgps.h"
-#include <string.h>
+#include "thdmems.h"
 
 /*===========================================================================*/
 /* Command line related.                                                     */
@@ -51,6 +48,7 @@ static const ShellCommand commands[] = {
  */
 
 static THD_WORKING_AREA(waBlinker, 256);
+
  static THD_FUNCTION(thdBlinker, arg){
  (void) arg;
  chRegSetThreadName("Blinker");
@@ -60,6 +58,8 @@ static THD_WORKING_AREA(waBlinker, 256);
 }
 
 static THD_WORKING_AREA(waGps, 1024);
+static THD_WORKING_AREA(waMems, 1024);
+
 
 int main(void) {
   /*
@@ -80,8 +80,9 @@ int main(void) {
    */
   //shellInit();
 
-  chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO - 1, thdBlinker, NULL);
-  chThdCreateStatic(waGps, sizeof(waGps), NORMALPRIO + 1, thdGps, NULL);
+  //chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO - 1, thdBlinker, NULL);
+  //chThdCreateStatic(waGps, sizeof(waGps), NORMALPRIO + 1, thdGps, NULL);
+  chThdCreateStatic(waMems, sizeof(waMems), NORMALPRIO + 1, thdMems, NULL);
 
   /*
    * Normal main() thread activity, in this demo it does nothing except

@@ -161,7 +161,7 @@ struct minmea_sentence_zda {
     int hour_offset;
     int minute_offset;
 };
-
+double conversion(double parametro);
 /**
  * Calculate raw sentence checksum. Does not check sentence integrity.
  */

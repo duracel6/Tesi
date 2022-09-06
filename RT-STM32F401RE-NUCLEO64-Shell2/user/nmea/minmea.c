@@ -14,6 +14,13 @@
 #include <time.h>
 
 #define boolstr(s) ((s) ? "true" : "false")
+double conversion(double parametro){
+  int gradi;
+  float secondi;
+  gradi=(int)(parametro/100);
+  secondi=(int)(((parametro/100)-gradi)*100000);
+  return (gradi+(secondi/60)/1000);
+}
 
 static int hex2int(char c)
 {
@@ -355,7 +362,7 @@ enum minmea_sentence_id minmea_sentence_id(const char *sentence, bool strict)
     if (!minmea_check(sentence, strict))
         return MINMEA_INVALID;
 
-   char type[6];
+ //char type[6];
     if (!minmea_scan(sentence, "t", buffer))
        return MINMEA_INVALID;
 
